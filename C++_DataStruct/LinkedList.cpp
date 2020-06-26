@@ -23,6 +23,21 @@ void push(struct Node** head, int node_data)
 	(*head) = newNode;
 }
 
+// delete first node in the linked list
+Node* deleteFirstNode(struct Node* head)
+{
+	if (head == NULL)
+		return NULL;
+
+	Node* tempNode = head;
+	head = head->next;
+	delete tempNode;
+
+	return head;
+}
+
+
+
 void insertAfter(struct Node* prev_node, int node_data)
 {
 	/* 1. check if the given prev_node is NULL*/
@@ -78,6 +93,34 @@ void append(struct Node** head, int node_data)
 	return;
 }
 
+Node* removeLastNode(struct Node* head)
+{
+	if (head == NULL)
+		return NULL;
+
+	if (head->next == NULL)
+	{
+		delete head;
+		return NULL;
+	}
+
+	// 1. Find second last Node
+	Node* second_last = head;
+	while (second_last->next->next != NULL)
+	{
+		second_last = second_last->next;
+	}
+
+	// Delete the last Node
+	delete (second_last->next);
+
+	// set next of second_last to null
+	second_last->next = NULL;
+
+	return head;
+}
+
+
 void printList(struct Node* node)
 {
 	while (node != NULL)
@@ -109,8 +152,3 @@ int main()
 	return 0;
 
 }
-
-
-
-
-
