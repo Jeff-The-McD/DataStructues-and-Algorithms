@@ -1,154 +1,105 @@
-
 #include <iostream>
 
-struct Node {
-public:
+struct Node
+{
 	int data;
-	struct Node* next;
+	Node* next;
 };
 
-// insert a new node in front of the list
-void push(struct Node** head, int node_data)
+
+class Linked_List
 {
-	/* 1. create and allocate Node*/
-	struct Node* newNode = new Node;
-
-	/* 2. assign data to node */
-	newNode->data = node_data;
-
-	/* 3. set next to the head */
-	newNode->next = (*head);
-
-	/* 4. move the head to the new node */
-	(*head) = newNode;
-}
-
-// delete first node in the linked list
-Node* deleteFirstNode(struct Node* head)
-{
-	if (head == NULL)
-		return NULL;
-
-	Node* tempNode = head;
-	head = head->next;
-	delete tempNode;
-
-	return head;
-}
-
-
-
-void insertAfter(struct Node* prev_node, int node_data)
-{
-	/* 1. check if the given prev_node is NULL*/
-	if (prev_node == NULL)
+private:
+	Node *head, *tail;
+public:
+	Linked_List()
 	{
-		std::cout << "the given node was NULL";
-		return;
+		head = NULL;
+		tail = NULL;
 	}
 
-	/* 2. create the new node */
-	struct Node* newNode = new Node;
-
-	/* 3. Assign data to the node*/
-	newNode->data = node_data;
-
-	/* 4. set the next of the new node to the one of the previous node*/
-	newNode->next = prev_node->next;
-
-	/* 5. prev_node.next = new node*/
-	prev_node->next = newNode;
-}
-
-
-
-void append(struct Node** head, int node_data)
-{
-
-	/* 1. create and allocate node*/
-	struct Node* newNode = new Node;
-
-
-	/* 2. assign data to the node*/
-	newNode->data = node_data;
-
-	/* 3. set next pointer of new node to null as its last node */
-	newNode->next = NULL;
-
-	/* 4. if list is empty, new node becomes first node*/
-	if (*head == NULL)
+	// adds the new node to the end of the list
+	void add_Node(int n)
 	{
-		*head = newNode;
-		return;
+		/* 1. creates new node */
+		Node* temp = new Node;
+
+		/* 2. assigns the data to the node */
+		temp->data = n;
+
+		/* 3. assigns the next to be null for now*/
+		temp->next = NULL;
+
+		// checking if adding to the list or not depending on if the list is full
+
+		// if head is null then adds the head and tail are the temp
+		if (head == NULL)
+		{
+			head = temp;
+			tail = temp;
+		}
+
+		// adds it to the end of the list
+		else
+		{
+			tail->next = temp;
+			tail = tail->next;
+		}
 	}
 
-	/* 5. Else traverse till the last node*/
-	struct Node* last = *head;
-
-	while (last->next != NULL)
-		last = last->next;
-
-	/* 6. Change the pointer to the new node*/
-	last->next = newNode;
-	return;
-}
-
-Node* removeLastNode(struct Node* head)
-{
-	if (head == NULL)
-		return NULL;
-
-	if (head->next == NULL)
+	void push(int n)
 	{
-		delete head;
-		return NULL;
+		/* 1. create the node*/
+		Node* temp = new Node;
+		
+		/* 2. assign the data to the node*/
+		temp->data = n;
+
+		/* 3. have the next of the temp point to the head*/
+		temp->next = head;
+
+		/* reassign the head to the temp we created*/
+		head = temp;
 	}
 
-	// 1. Find second last Node
-	Node* second_last = head;
-	while (second_last->next->next != NULL)
+	void insertAfter(Node* a, int n)
 	{
-		second_last = second_last->next;
+		/* 1. create the node */
+		Node* temp = new Node;
+
+		/* 2. assign the data to the new node*/
+		temp->data = n;
+
+		/* 3. assign the temp of the next to 2nd half of the linked list*/
+		temp->next = a->next;
+
+		/* 4. have the first node be connected to the temp node*/
+		a->next = temp;
+
 	}
 
-	// Delete the last Node
-	delete (second_last->next);
-
-	// set next of second_last to null
-	second_last->next = NULL;
-
-	return head;
-}
 
 
-void printList(struct Node* node)
-{
-	while (node != NULL)
+	void printList()
 	{
-		std::cout << node->data << "-->";
-		node = node->next;
-	}
+		Node* temp;
+		temp = head;
 
-	if (node == NULL)
-		std::cout << "null";
-}
+		while (temp != NULL)
+		{
+			std::cout << temp->data <<"-->";
+			temp = temp->next;
+		}
+		std::cout << "NULL";
+	}
+};
 
 int main()
 {
-	struct Node* head = NULL;
-
-	append(&head, 10);
-
-	push(&head, 20);
-
-	push(&head, 30);
-
-	append(&head, 40);
-
-	insertAfter(head->next, 50);
-
-	std::cout<<"Final linked List: " << std::endl;
-	printList(head);
+	Linked_List a;
+	a.add_Node(6);
+	a.add_Node(5);
+	a.add_Node(4);
+	a.printList();
 	return 0;
-
 }
