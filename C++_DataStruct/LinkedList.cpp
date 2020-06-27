@@ -1,4 +1,5 @@
 #include <iostream>
+#include <exception>
 
 struct Node
 {
@@ -11,11 +12,13 @@ class Linked_List
 {
 private:
 	Node *head, *tail;
+	int number_of_entries;
 public:
 	Linked_List()
 	{
 		head = NULL;
 		tail = NULL;
+		number_of_entries = 0;
 	}
 
 	// adds the new node to the end of the list
@@ -30,6 +33,9 @@ public:
 		/* 3. assigns the next to be null for now*/
 		temp->next = NULL;
 
+
+		number_of_entries++;
+		
 		// checking if adding to the list or not depending on if the list is full
 
 		// if head is null then adds the head and tail are the temp
@@ -47,6 +53,38 @@ public:
 		}
 	}
 
+	// deletes one selected node in the middle of the list
+	void del(Node* before_del)
+	{
+		try
+		{
+			before_del;
+		}
+
+		catch (const std::invalid_argument& ia)
+		{
+			std::cerr << " Node is Null:" << ia.what() << '\n';
+		}
+
+		/* 1. create a node */
+		Node* temp;
+
+		/* 2. create a temporary pointer to the node to be deleted*/
+		temp = before_del->next;
+
+		/* 3. Connecting the predecessor of the deleted to the successsor of the deleted */
+		before_del->next = temp->next;
+
+		/* 4. delete the node*/
+		delete temp;
+
+		number_of_entries--;
+		
+
+		
+		
+	}
+
 	void push(int n)
 	{
 		/* 1. create the node*/
@@ -60,6 +98,8 @@ public:
 
 		/* reassign the head to the temp we created*/
 		head = temp;
+
+		number_of_entries++;
 	}
 
 	void insertAfter(Node* a, int n)
@@ -76,6 +116,7 @@ public:
 		/* 4. have the first node be connected to the temp node*/
 		a->next = temp;
 
+		number_of_entries++;
 	}
 
 
@@ -92,6 +133,29 @@ public:
 		}
 		std::cout << "NULL";
 	}
+
+	Node* returnNthNode(int position)
+	{
+		Node* temp = head;
+		int i = 0;
+		
+
+		for(int i=0;i<position;i++)
+		{
+			temp = temp->next;
+		}
+		return temp;
+	}
+
+	int getEntries()
+	{
+		return number_of_entries;
+	}
+
+	void getStatus()
+	{
+		std::cout << "The linked list has " << number_of_entries << "."<<std::endl;
+	}
 };
 
 int main()
@@ -100,6 +164,10 @@ int main()
 	a.add_Node(6);
 	a.add_Node(5);
 	a.add_Node(4);
+	a.getStatus();
 	a.printList();
-	return 0;
+
+	a.del(a.returnNthNode(2));
+	a.printList();
+	return EXIT_SUCCESS;
 }
