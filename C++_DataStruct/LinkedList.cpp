@@ -134,6 +134,11 @@ public:
 		std::cout << "NULL";
 	}
 
+	Node* getHead()
+	{
+		return head;
+	}
+
 	Node* returnNthNode(int position)
 	{
 		Node* temp = head;
@@ -167,7 +172,7 @@ int main()
 	a.getStatus();
 	a.printList();
 
-	a.del(a.returnNthNode(2));
+	a.del(a.getHead()->next);
 	a.printList();
 	return EXIT_SUCCESS;
 }
