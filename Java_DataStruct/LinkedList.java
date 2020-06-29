@@ -13,6 +13,7 @@ public class LinkedList
 	 {
 		 head = new Node(Integer.MAX_VALUE);
 		 head.next = null;
+		 number_of_entries = 0;
 	 }
 	 
 	 
@@ -47,9 +48,7 @@ public class LinkedList
 		 if(data>Integer.MAX_VALUE || data<Integer.MIN_VALUE) {return;}
 		 
 		 Node new_node = new Node(data);
-		 
-			 
-			 
+		 		 
 		 new_node.next = head;
 			 
 		 head = new_node;
@@ -58,7 +57,29 @@ public class LinkedList
 	 
 	 public void insertAt(int data, int index)
 	 {
+		 if(index>number_of_entries) 
+		 {
+			 System.out.println("index exceeded list size");
+			 return;
+		 }
 		 
+		 if(index==0) {addAtHead(data);}
+		 
+		 Node new_node = new Node(data);
+		 
+		 Node tracker = head;
+		 
+		 for(int i = 0; i<=number_of_entries;i++)
+		 {
+			 if(i == index)
+			 {
+				 new_node.next = tracker.next;
+				 tracker.next = new_node;
+				 
+			 }
+			 tracker = tracker.next;
+		 }
+		 number_of_entries++;
 		 
 	 }
 	 
