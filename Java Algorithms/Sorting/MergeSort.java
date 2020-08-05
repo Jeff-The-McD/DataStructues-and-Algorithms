@@ -1,7 +1,49 @@
 
 public class MergeSort 
 {
-	public static void sort(int arr[], int left, int right)
+	public static void sort(int[] a, int n)
+	{
+		if(n<2)
+		{
+			return;
+		}
+		
+		int mid = n/2;
+		
+		int[] L = new int[mid];
+		int[] R = new int[n-mid];
+		
+		for(int i =0;i<mid;++i)
+			L[i] = a[i];
+		
+		for(int i = mid; i<n; ++i)
+			R[i-mid] = a[i];
+		
+		sort(L,mid);
+		sort(R,n-mid);
+		merge(a,L,R,mid,n-mid);
+	}
+	
+	public static void merge(int[]a , int[] L,int[] R,int left, int right)
+	{
+		int i = 0, j = 0, k=0;
+		
+		while(i<left && j<right)
+		{
+			if(L[i]<=R[j])
+				a[k++] = L[i++];
+			else
+				a[k++] = R[j++];
+		}
+		
+		while(i<left)
+			a[k++] = L[i++];
+		
+		while(j<right)
+			a[k++] = R[j++];
+		
+	}
+	public static void sort2(int arr[], int left, int right)
 	{
 		if(left<right)
 		{
@@ -10,16 +52,16 @@ public class MergeSort
 			
 			// Sort 1st and 2nd halves
 			
-			sort(arr,left,mid);
+			sort2(arr,left,mid);
 			
-			sort(arr,mid,right);
+			sort2(arr,mid,right);
 			
-			merge(arr,left,mid,right);
+			merge2(arr,left,mid,right);
 		}
 	}
 	
 	
-	public static void merge(int arr[],int left, int mid, int right)
+	public static void merge2(int arr[],int left, int mid, int right)
 	{
 		// The two subarrays sizes
 		
