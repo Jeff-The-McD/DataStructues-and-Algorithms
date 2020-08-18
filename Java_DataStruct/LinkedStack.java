@@ -4,6 +4,7 @@ public class LinkedStack
 	Node head;
 	int number_of_entries;
 	
+	
 	public LinkedStack()
 	{
 		head = null;
@@ -42,7 +43,7 @@ public class LinkedStack
 		{
 			int value_to_return = head.data;
 			head = head.next;
-			number_of_entries++;
+			number_of_entries--;
 			return value_to_return; 
 		}
 		
@@ -61,6 +62,12 @@ public class LinkedStack
 	public void clear()
 	{
 		head = null;
+		number_of_entries=0;
+	}
+	
+	public int size()
+	{
+		return number_of_entries;
 	}
 	
 	public void printStack()
